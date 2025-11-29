@@ -9,29 +9,31 @@ The setup consists of two main files:
 
 ## Dependencies
 
-### Fedora (Host OS)
-To run this project on Fedora, you need to install the virtualization group and specific tools:
+### Fedora
 
+- 1 Run the following command to install the mandatory and default packages in the virtualization group:
 ```bash
-sudo dnf groupinstall "Virtualization Headless"
-sudo dnf install virt-install
+sudo dnf install @virtualization
+```
+Alternatively, to install the mandatory, default, and optional packages, run:
+```bash
+sudo dnf group install --with-optional virtualization
+```
+2 - After the packages install, start the `libvirtd` service:
+```bash
+sudo systemctl start libvirtd
+```
+To start the service on boot, run:
+```bash
+sudo systemctl enable libvirtd
+```
+3 - To verify that the KVM kernel modules are properly loaded:
+```bash
+lsmod | grep kvm
+kvm_amd               114688  0
+kvm                   831488  1 kvm_amd
 ```
 
-Ensure the libvirt service is started and enabled:
+## Resources
 
-```bash
-sudo systemctl enable --now libvirtd
-```
-
-### Other Distributions
-
-**Debian / Ubuntu:**
-```bash
-sudo apt update
-sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst
-```
-
-**Arch Linux:**
-```bash
-sudo pacman -S qemu libvirt virt-install
-```
+- [https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/](https://docs.fedoraproject.org/en-US/quick-docs/virtualization-getting-started/)
